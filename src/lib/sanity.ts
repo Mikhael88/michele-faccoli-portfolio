@@ -86,6 +86,51 @@ export interface ServiceData {
   order: number
 }
 
+export interface AllServiceSlug {
+  slug: string
+  cluster: 'servizi-agenzie' | 'soluzioni-industriali'
+}
+
+export interface HeroSectionData {
+  badge: string
+  headline: string
+  headlineHighlight: string
+  headlineEnd: string
+  subheadline: string
+  primaryCTA: string
+  secondaryCTA: string
+  calendlyUrl: string
+  heroImage?: {
+    asset?: {
+      _ref?: string
+      _type?: string
+    }
+    alt?: string
+  }
+  caseStudyBadge?: {
+    label?: string
+    title?: string
+    metric?: string
+  }
+}
+
+export interface BivioPathCard {
+  key: 'agenzie' | 'aziende'
+  icon: string
+  title: string
+  subtitle: string
+  description: string
+  features: string[]
+  href: string
+}
+
+export interface BivioSectionData {
+  title: string
+  titleHighlight: string
+  description: string
+  paths: BivioPathCard[]
+}
+
 // --- FETCH FUNCTIONS CON TAGGING ---
 
 /**
@@ -104,15 +149,25 @@ export async function getAllServices(): Promise<ServiceData[]> {
   return sanityFetch(query, {}, ['service', 'all-services'])
 }
 
+export async function getAllServiceSlugs(): Promise<AllServiceSlug[]> {
+  const query = `*[_type == "service" && defined(slug.current)]{
+    "slug": slug.current,
+    cluster
+  }`
+  return sanityFetch(query)
+}
+
 export async function getServiceBySlug(slug: string): Promise<ServiceData | null> {
   const query = `*[_type == "service" && slug.current == $slug && published == true][0] { ${SERVICE_FIELDS} }`
   return sanityFetch(query, { slug }, [`service:${slug}`])
 }
 
-export async function getHeroSection() {
-  const query = `*[_type == "heroSection" && published == true][0] { 
-    ..., 
-    "heroImage": heroImage.asset->url // Qui usiamo url diretto se serve solo background
-  }`
+export async function getHeroSection(): Promise<HeroSectionData | null> {
+  const query = `*[_type == "heroSection" && published == true][0]`
   return sanityFetch(query, {}, ['hero'])
+}
+
+export async function getBivioSection(): Promise<BivioSectionData | null> {
+  const query = `*[_type == "bivioSection" && published == true][0]`
+  return sanityFetch(query)
 }
