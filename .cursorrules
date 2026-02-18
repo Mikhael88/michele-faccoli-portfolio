@@ -1,0 +1,895 @@
+ # CURSORRULES - Michele Faccoli Portfolio
+
+## Progetto Next.js 16 per 3D Artist / Visual Designer
+
+
+
+---
+
+
+
+## 📋 PANORAMICA PROGETTO
+
+
+
+Portfolio professionale per Michele Faccoli, 3D Artist specializzato in:
+
+- **Servizi per Agenzie**: Modellazione 3D, Render, Animazioni, Configuratori Web
+
+- **Soluzioni per Aziende**: Scan 3D, Stampa 3D, Cataloghi digitali, E-commerce 3D
+
+
+
+Il sito ha due percorsi principali con temi cromatici diversi:
+
+- `/servizi-agenzie` → Tema ARANCIONE (neon-orange)
+
+- `/soluzioni-industriali` → Tema BLU (neon-blue)
+
+
+
+---
+
+
+
+## 🛠 STACK TECNOLOGICO
+
+
+
+### Core
+
+- **Next.js 16.1** con App Router
+
+- **React 19** con TypeScript
+
+- **Tailwind CSS 4** con CSS Variables
+
+- **Framer Motion** per animazioni
+
+
+
+### UI Components
+
+- **shadcn/ui** (Radix primitives)
+
+- **Lucide React** per icone
+
+- **class-variance-authority** per varianti componenti
+
+
+
+### State Management
+
+- **Zustand** con persist middleware
+
+- Store principale: `src/store/useStore.ts`
+
+
+
+### Database (preparato ma non usato)
+
+- **Prisma** con SQLite
+
+- Schema in `prisma/schema.prisma`
+
+
+
+### 3D (presente ma non attivo)
+
+- **React Three Fiber** + **Drei**
+
+- Componenti in `src/components/three/`
+
+
+
+---
+
+
+
+## 📁 STRUTTURA DIRECTORY
+
+
+
+```
+
+src/
+
+├── app/                          # Next.js App Router
+
+│   ├── page.tsx                  # Homepage
+
+│   ├── layout.tsx                # Root layout
+
+│   ├── globals.css               # CSS globale + variabili
+
+│   ├── api/                      # API routes
+
+│   ├── servizi-agenzie/          # Percorso AGENZIE (arancione)
+
+│   │   ├── page.tsx              # Pagina principale
+
+│   │   ├── modellazione-render-3d/
+
+│   │   ├── animazioni-3d/
+
+│   │   ├── configuratori-web/
+
+│   │   └── scan-stampa-3d/
+
+│   └── soluzioni-industriali/    # Percorso AZIENDE (blu)
+
+│       ├── page.tsx              # Pagina principale
+
+│       ├── cataloghi/
+
+│       ├── campagne-social/
+
+│       ├── configuratori-ecommerce-3d/
+
+│       └── scan-stampa-3d/
+
+│
+
+├── components/
+
+│   ├── blocks/                   # Componenti contenuto
+
+│   │   ├── Hero.tsx
+
+│   │   ├── Preventivatore.tsx    # Modal richiesta preventivo
+
+│   │   ├── PreventivatoreFAB.tsx # Floating action button
+
+│   │   ├── WorkflowAccordion.tsx # Accordion interattivo
+
+│   │   ├── Portfolio.tsx
+
+│   │   ├── Testimonials.tsx
+
+│   │   └── ...
+
+│   ├── layout/
+
+│   │   ├── PageLayout.tsx        # Layout con sidebar 90/10
+
+│   │   ├── Header.tsx
+
+│   │   └── Footer.tsx
+
+│   ├── pages/
+
+│   │   ├── AgencyPage.tsx        # Contenuto agenzie
+
+│   │   └── BusinessPage.tsx      # Contenuto aziende
+
+│   ├── templates/
+
+│   │   └── DeepPageTemplate.tsx  # Template per sottopagine
+
+│   ├── navigation/
+
+│   │   ├── BivioSection.tsx      # Scelta iniziale
+
+│   │   └── BivioStrategico.tsx
+
+│   ├── sections/
+
+│   │   └── UpsellViewer.tsx
+
+│   └── ui/                       # shadcn/ui components
+
+│
+
+├── hooks/
+
+│   ├── useTimerDrawer.ts         # Gestione modal preventivo
+
+│   ├── useScrollProgress.ts
+
+│   └── useMediaQuery.ts
+
+│
+
+├── store/
+
+│   └── useStore.ts               # Zustand store
+
+│
+
+├── types/
+
+│   └── index.ts                  # TypeScript types
+
+│
+
+└── data/
+
+    └── blogPosts.ts              # Dati statici blog
+
+```
+
+
+
+---
+
+
+
+## 🎨 SISTEMA TEMI E COLORI
+
+
+
+### CSS Variables Principali - Design System
+
+**4 variabili semantiche** (modificabili in globals.css per cambiare tutto il sito):
+
+```css
+--site-bg: #0A0A0A;           /* Sfondo principale */
+--brand-accent: #FF6B35;      /* Orange default, blue su [data-theme="blue"] */
+--ui-border: rgba(255,255,255,0.08);  /* Bordi */
+--font-heading: var(--font-geist-sans);  /* Font titoli */
+```
+
+Temi: `[data-theme="orange"]` e `[data-theme="blue"]` sovrascrivono --brand-accent.
+
+Classi Tailwind: `bg-site-bg`, `text-brand-accent`, `border-ui-border`
+
+Variabili legacy (derivate): --neon-orange, --neon-blue, --background-dark
+
+
+
+### Classi Utility per Testo Gradient
+
+
+
+```css
+
+.neon-text-orange   /* Gradient arancione per agenzie */
+
+.neon-text-blue     /* Gradient blu per aziende */
+
+.neon-text-cyan     /* Gradient ciano alternativo */
+
+```
+
+
+
+### Pattern per Cambio Tema
+
+
+
+```tsx
+
+// Sempre usare questo pattern per determinare il tema
+
+const isOrange = theme === 'orange' // o currentPage === 'agenzie'
+
+
+
+// Per classi condizionali
+
+className={cn(
+
+  isOrange 
+
+    ? 'text-[var(--neon-orange)] border-[var(--neon-orange)]/20' 
+
+    : 'text-[var(--neon-blue)] border-[var(--neon-blue)]/20'
+
+)}
+
+```
+
+
+
+---
+
+
+
+## 🧩 COMPONENTI CHIAVE
+
+
+
+### PageLayout.tsx
+
+- Layout split 90% contenuto / 10% sidebar
+
+- Sidebar con navigazione e switch tra percorsi
+
+- Include `<Preventivatore />` per modal globale
+
+
+
+### DeepPageTemplate.tsx
+
+Template per tutte le sottopagine con:
+
+- Props: `theme`, `title`, `subtitle`, `description`, `problem`, `solution`, `pipeline`, `caseHistory`, `deliverables`, `parentPath`, `parentLabel`
+
+- Sezioni: Hero, Problem, Solution, Pipeline (Accordion), Case History, Deliverables, Upsell
+
+
+
+### Preventivatore.tsx
+
+- Modal centrato con `createPortal` per escape da transform context
+
+- Form con: tipo progetto, budget slider, descrizione, email
+
+- Usa `useTimerDrawer` hook per stato apertura
+
+
+
+### WorkflowAccordion.tsx
+
+- Accordion interattivo per mostrare processo di lavoro
+
+- Props: `steps[]` con `id`, `title`, `description`, `duration`, `extraText`, `image`
+
+- Animazioni Framer Motion con AnimatePresence
+
+
+
+### BivioSection.tsx
+
+- Scelta iniziale tra Agenzie e Aziende
+
+- Navigazione reale con Next.js Link
+
+
+
+---
+
+
+
+## 🗃 STATO GLOBALE (Zustand)
+
+
+
+```typescript
+
+// src/store/useStore.ts
+
+interface StoreState {
+
+  currentView: 'hero' | 'bivio' | 'content'
+
+  activePath: 'agenzie' | 'aziende' | null
+
+  isDrawerOpen: boolean      // Modal preventivatore
+
+  hasSeenDrawer: boolean     // Per auto-show timer
+
+}
+
+
+
+// Persistito in localStorage: 'michele-faccoli-portfolio'
+
+```
+
+
+
+### Hook useTimerDrawer
+
+```typescript
+
+const { isDrawerOpen, openDrawer, closeDrawer, hasSeenDrawer } = useTimerDrawer()
+
+// Auto-apre dopo 45 secondi se non visto
+
+```
+
+
+
+---
+
+
+
+## 🚫 NON TOCCARE (Romperebbe Funzionalità)
+
+
+
+### 1. Portal nel Preventivatore
+
+```tsx
+
+// NON RIMUOVERE createPortal - necessario per escape da transform context
+
+return createPortal(modalContent, document.body)
+
+```
+
+
+
+### 2. Struttura PageLayout
+
+```tsx
+
+// NON MODIFICARE proporzioni 90/10 senza aggiornare tutti i componenti
+
+<motion.main animate={{ width: '90%' }}>
+
+<motion.aside animate={{ width: '10%' }}>
+
+```
+
+
+
+### 3. useSyncExternalStore
+
+```tsx
+
+// Pattern per SSR-safe portal - non cambiare
+
+const mounted = useSyncExternalStore(emptySubscribe, getSnapshot, getServerSnapshot)
+
+if (!mounted) return null
+
+```
+
+
+
+### 4. Variabili CSS
+
+Non modificare i nomi delle variabili CSS in globals.css - sono referenziate ovunque
+
+
+
+### 5. Struttura Pipeline
+
+Il tipo `WorkflowStep` deve mantenere tutti i campi per compatibilità con DeepPageTemplate
+
+
+
+---
+
+
+
+## ✅ PATTERN DA SEGUIRE
+
+
+
+### 1. Nuova Pagina Deep
+
+Creare file in `/src/app/[percorso]/[slug]/page.tsx`:
+
+
+
+```tsx
+
+import { DeepPageTemplate } from '@/components/templates/DeepPageTemplate'
+
+
+
+export default function NuovaPagina() {
+
+  return (
+
+    <DeepPageTemplate
+
+      theme="orange" // o "blue"
+
+      title="Titolo Pagina"
+
+      subtitle="Sottotitolo"
+
+      description="Descrizione..."
+
+      problem={{
+
+        title: "Titolo Problema",
+
+        description: "Descrizione problema",
+
+        painPoints: ["Pain point 1", "Pain point 2"]
+
+      }}
+
+      solution={{
+
+        title: "Titolo Soluzione",
+
+        description: "Descrizione soluzione",
+
+        benefits: ["Benefit 1", "Benefit 2"]
+
+      }}
+
+      pipeline={[
+
+        {
+
+          id: 'step-1',
+
+          title: 'Step 1',
+
+          description: 'Descrizione breve',
+
+          duration: '2 giorni',
+
+          extraText: 'Testo SEO dettagliato...',
+
+          image: '/path/to/image.jpg' // opzionale
+
+        }
+
+      ]}
+
+      caseHistory={[...]}
+
+      deliverables={[...]}
+
+      parentPath="/servizi-agenzie"
+
+      parentLabel="Servizi Agenzie"
+
+    />
+
+  )
+
+}
+
+```
+
+
+
+### 2. Componente con Tema Dinamico
+
+```tsx
+
+interface MyComponentProps {
+
+  theme: 'orange' | 'blue'
+
+}
+
+
+
+export function MyComponent({ theme }: MyComponentProps) {
+
+  const isOrange = theme === 'orange'
+
+  
+
+  return (
+
+    <div className={cn(
+
+      'base-classes',
+
+      isOrange ? 'orange-specific-classes' : 'blue-specific-classes'
+
+    )}>
+
+      {/* content */}
+
+    </div>
+
+  )
+
+}
+
+```
+
+
+
+### 3. Animazioni Framer Motion
+
+```tsx
+
+import { motion } from 'framer-motion'
+
+
+
+// Pattern standard per sezioni
+
+<motion.div
+
+  initial={{ opacity: 0, y: 30 }}
+
+  whileInView={{ opacity: 1, y: 0 }}
+
+  viewport={{ once: true }}
+
+  transition={{ duration: 0.6 }}
+
+>
+
+  {/* content */}
+
+</motion.div>
+
+```
+
+
+
+---
+
+
+
+## 🔮 PREPARAZIONE SANITY CMS
+
+
+
+### Schema Suggerito
+
+
+
+```javascript
+
+// schemas/service.ts
+
+export default {
+
+  name: 'service',
+
+  title: 'Servizio',
+
+  type: 'document',
+
+  fields: [
+
+    { name: 'title', type: 'string', title: 'Titolo' },
+
+    { name: 'slug', type: 'slug', options: { source: 'title' } },
+
+    { name: 'theme', type: 'string', options: {
+
+      list: [
+
+        { title: 'Agenzie (Orange)', value: 'orange' },
+
+        { title: 'Aziende (Blue)', value: 'blue' }
+
+      ]
+
+    }},
+
+    { name: 'subtitle', type: 'string' },
+
+    { name: 'description', type: 'text' },
+
+    { 
+
+      name: 'problem', 
+
+      type: 'object',
+
+      fields: [
+
+        { name: 'title', type: 'string' },
+
+        { name: 'description', type: 'text' },
+
+        { name: 'painPoints', type: 'array', of: [{ type: 'string' }] }
+
+      ]
+
+    },
+
+    { 
+
+      name: 'solution', 
+
+      type: 'object',
+
+      fields: [
+
+        { name: 'title', type: 'string' },
+
+        { name: 'description', type: 'text' },
+
+        { name: 'benefits', type: 'array', of: [{ type: 'string' }] }
+
+      ]
+
+    },
+
+    {
+
+      name: 'pipeline',
+
+      type: 'array',
+
+      of: [{
+
+        type: 'object',
+
+        fields: [
+
+          { name: 'id', type: 'string' },
+
+          { name: 'title', type: 'string' },
+
+          { name: 'description', type: 'text' },
+
+          { name: 'duration', type: 'string' },
+
+          { name: 'extraText', type: 'text' },
+
+          { name: 'image', type: 'image' }
+
+        ]
+
+      }]
+
+    },
+
+    { name: 'caseHistory', type: 'array', of: [{ type: 'caseStudy' }] },
+
+    { name: 'deliverables', type: 'array', of: [{ type: 'string' }] },
+
+    { name: 'parentPath', type: 'string' },
+
+    { name: 'parentLabel', type: 'string' }
+
+  ]
+
+}
+
+```
+
+
+
+### Passi per Migrazione a Sanity
+
+
+
+1. **Installare Sanity client**
+
+   ```bash
+
+   npm install @sanity/client @sanity/image-url
+
+   ```
+
+
+
+2. **Creare file `.env.local`**
+
+   ```
+
+   NEXT_PUBLIC_SANITY_PROJECT_ID=xxx
+
+   NEXT_PUBLIC_SANITY_DATASET=production
+
+   SANITY_API_TOKEN=xxx
+
+   ```
+
+
+
+3. **Creare client Sanity**
+
+   ```typescript
+
+   // src/lib/sanity.ts
+
+   import { createClient } from '@sanity/client'
+
+   
+
+   export const sanityClient = createClient({
+
+     projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+
+     dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
+
+     apiVersion: '2024-01-01',
+
+     useCdn: true,
+
+     token: process.env.SANITY_API_TOKEN
+
+   })
+
+   ```
+
+
+
+4. **Sostituire dati hardcoded con fetch**
+
+   ```typescript
+
+   // Prima (hardcoded)
+
+   pipeline={[
+
+     { id: 'analisi', title: 'Analisi', ... }
+
+   ]}
+
+   
+
+   // Dopo (Sanity)
+
+   const service = await sanityClient.fetch(`
+
+     *[_type == "service" && slug.current == $slug][0]
+
+   `, { slug })
+
+   ```
+
+
+
+5. **Pagina dinamica**
+
+   ```typescript
+
+   // app/servizi-agenzie/[slug]/page.tsx
+
+   export async function generateStaticParams() {
+
+     const services = await sanityClient.fetch(`
+
+       *[_type == "service" && theme == "orange"].slug.current
+
+     `)
+
+     return services.map(slug => ({ slug }))
+
+   }
+
+   ```
+
+
+
+---
+
+
+
+## 📝 NOTE AGGIUNTIVE
+
+
+
+### Comandi Utili
+
+```bash
+
+bun run dev      # Sviluppo su port 3000
+
+bun run lint     # Check ESLint
+
+bun run build    # Build produzione
+
+```
+
+
+
+### Deploy
+
+- **Vercel**: connesso automaticamente
+
+- **Token**: salvato in `vercel_key`
+
+
+
+### File da Ignorare
+
+- `/public/my-project-backup.zip` - backup temporaneo
+
+- `/download/` - file generati
+
+- `/skills/` - skill system (non parte del sito)
+
+
+
+---
+
+
+
+## 🎯 OBIETTIVI FUTURI
+
+
+
+1. **Migrare contenuti a Sanity CMS** per gestione dinamica
+
+2. **Aggiungere immagini reali** ai WorkflowAccordion steps
+
+3. **Implementare blog/articoli** sezione
+
+4. **Aggiungere pagine case study** dettagliate
+
+5. **Migliorare SEO** con metadata dinamici da Sanity
+
