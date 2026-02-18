@@ -5,6 +5,7 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: false, // Disabilitato per avere dati sempre freschi (non cacheati dalla CDN)
-  token: process.env.SANITY_API_READ_TOKEN, // <--- AGGIUNGI QUESTA RIGA
+  useCdn: false,
+  // Il '!' risolve l'errore TypeScript che bloccava GitHub
+  token: process.env.SANITY_API_READ_TOKEN!, 
 })
