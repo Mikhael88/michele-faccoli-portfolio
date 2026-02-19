@@ -1,8 +1,8 @@
 /**
- * Sanity Studio Configuration
- * 
- * Configurazione per Sanity Studio V3.
- * Per avviare lo studio: npm run sanity
+ * Sanity Studio Configuration (v3 / modern)
+ *
+ * projectId e dataset da .env.local (NEXT_PUBLIC_SANITY_*).
+ * Avvio: npm run sanity (standalone) oppure /studio (embedded in Next).
  */
 
 import { defineConfig } from 'sanity'
@@ -10,14 +10,15 @@ import { structureTool } from 'sanity/structure'
 import { visionTool } from '@sanity/vision'
 import { schemaTypes } from './sanity/schema'
 
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID ?? 'm4qtg32u'
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET ?? 'production'
+
 export default defineConfig({
   name: 'default',
   title: 'Michele Faccoli - 3D Portfolio',
-
-  // Per lo Studio usiamo valori fissi (più semplici e affidabili)
-  // Il projectId e il dataset sono gli stessi che hai in .env.local
-  projectId: 'm4qtg32u',
-  dataset: 'production',
+  projectId,
+  dataset,
+  basePath: '/studio',
 
   plugins: [
     structureTool({

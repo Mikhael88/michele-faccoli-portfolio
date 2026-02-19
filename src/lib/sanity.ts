@@ -163,11 +163,11 @@ export async function getServiceBySlug(slug: string): Promise<ServiceData | null
 }
 
 export async function getHeroSection(): Promise<HeroSectionData | null> {
-  const query = `*[_type == "heroSection" && published == true][0]`
+  const query = `*[_type == "heroSection"][0]`
   return sanityFetch(query, {}, ['hero'])
 }
 
 export async function getBivioSection(): Promise<BivioSectionData | null> {
-  const query = `*[_type == "bivioSection" && published == true][0]`
+  const query = `*[_type == "bivioSection"][0]`
   return sanityFetch(query)
 }

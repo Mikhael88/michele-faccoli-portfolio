@@ -6,6 +6,7 @@ import { useStore } from '@/store/useStore'
 import { useRef, useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import type { HeroSectionData } from '@/lib/sanity'
+import { urlFor } from '@/lib/sanity'
 import Image from 'next/image'
 
 interface HeroSectionProps {
@@ -18,7 +19,7 @@ export function HeroSection({ data }: HeroSectionProps) {
   const [hasScrolled, setHasScrolled] = useState(false)
   
   // Fallback ai valori di default se non ci sono dati da Sanity
-  const heroData = data || {
+  const heroData: HeroSectionData & { heroImage?: HeroSectionData['heroImage'] } = data || {
     badge: 'Disponibilità Q1 2025',
     headline: 'Soluzioni 3D',
     headlineHighlight: 'Strategiche',
@@ -34,6 +35,9 @@ export function HeroSection({ data }: HeroSectionProps) {
     }
   }
   
+  const heroImageUrl =
+    heroData.heroImage ? urlFor(heroData.heroImage).width(1200).height(800).url() : null
+
   // Auto-scroll to bivio on first scroll attempt
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
@@ -115,10 +119,10 @@ export function HeroSection({ data }: HeroSectionProps) {
               className="relative h-[500px] lg:h-[600px] w-full rounded-2xl overflow-hidden shadow-2xl group"
             >
               {/* Hero Image o Placeholder */}
-              {heroData.heroImage ? (
+              {heroImageUrl ? (
                 <Image
-                  src={heroData.heroImage}
-                  alt={heroData.heroImageAlt || 'Hero image'}
+                  src={heroImageUrl}
+                  alt={heroData.heroImage?.alt || 'Hero image'}
                   fill
                   className="object-cover"
                   priority
