@@ -1,6 +1,8 @@
 import { Metadata } from 'next'
 import { BusinessPage } from '@/components/pages/BusinessPage'
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: 'Digitalizzazione Industriale e Visualizzazione 3D | Michele Faccoli',
   description: 'Digitalizzazione industriale: render fotorealistici, prototipazione 3D, animazioni prodotto. Comunico il valore dei tuoi prodotti con visualizzazioni ad alto impatto.',

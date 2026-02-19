@@ -1,24 +1,23 @@
 /**
  * Sanity Studio embedded in Next.js (App Router).
- * Caricato solo lato client per evitare createContext in SSR (React 19 vs Sanity).
- * Disponibile su /studio; config e projectId/dataset da .env.local.
+ * Componente forzato lato client (CSR) tramite next/dynamic per prevenire
+ * conflitti di idratazione e limitazioni della Context API in React 19 (SSR).
  */
 
 'use client'
 
-import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
-
+import config from '@/sanity.config' // Importazione diretta, sicura ed efficiente
+// Disabilita il Server-Side Rendering solo per l'engine dello Studio
 const NextStudio = dynamic(
   () => import('next-sanity/studio').then((mod) => mod.NextStudio),
-  { ssr: false }
+  { 
+    ssr: false,
+    loading: () => <div style={{ padding: 24, fontFamily: 'system-ui' }}>Caricamento Studio…</div>
+  }
 )
 
 export default function StudioPage() {
-  const [config, setConfig] = useState<Awaited<ReturnType<typeof import('@/sanity.config')>> | null>(null)
-  useEffect(() => {
-    import('@/sanity.config').then((m) => setConfig(m.default))
-  }, [])
-  if (!config) return <div style={{ padding: 24 }}>Caricamento Studio…</div>
+  // Nessun useEffect, nessun useState, nessun re-render inutile.
   return <NextStudio config={config} />
 }
