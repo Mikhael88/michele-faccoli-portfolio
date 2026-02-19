@@ -59,12 +59,14 @@ export function DeepPageTemplate({
   
   return (
     <PageLayout currentPage={isOrange ? 'agenzie' : 'aziende'}>
-      <div className="min-h-full bg-site-bg">
+      <div className="min-h-full bg-transparent">
         {/* Navbar */}
-        <nav className={cn(
-          'sticky top-0 z-50 w-full bg-site-bg/80 backdrop-blur-md border-b px-8 py-4 flex justify-between items-center',
-          'border-[var(--brand-accent)]/20'
-        )}>
+        <nav
+          className={cn(
+            'sticky top-0 z-50 w-full bg-transparent backdrop-blur-md border-b px-8 py-4 flex justify-between items-center',
+            'border-[var(--brand-accent)]/20'
+          )}
+        >
           <Link href="/" className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-lg bg-[var(--brand-accent)]">
               MF
@@ -158,7 +160,7 @@ export function DeepPageTemplate({
         </header>
 
         {/* Problem Section */}
-        <section id="problema" className="py-20 px-8 md:px-16 bg-site-bg">
+        <section id="problema" className="py-20 px-8 md:px-16 bg-transparent">
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -196,7 +198,7 @@ export function DeepPageTemplate({
         </section>
 
         {/* Solution Section */}
-        <section id="soluzione" className="py-20 px-8 md:px-16 bg-site-bg">
+        <section id="soluzione" className="py-20 px-8 md:px-16 bg-transparent">
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -234,7 +236,7 @@ export function DeepPageTemplate({
         </section>
 
         {/* Pipeline Section - Interactive Accordion */}
-        <section id="pipeline" className="py-20 px-8 md:px-16 bg-site-bg">
+        <section id="pipeline" className="py-20 px-8 md:px-16 bg-transparent">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-12">Il Processo di Lavoro</h2>
             <p className="text-slate-400 mb-8 max-w-2xl">
@@ -245,7 +247,7 @@ export function DeepPageTemplate({
         </section>
 
         {/* Case History Section */}
-        <section id="case-history" className="py-20 px-8 md:px-16 bg-site-bg">
+        <section id="case-history" className="py-20 px-8 md:px-16 bg-transparent">
           <div className="max-w-7xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-12">Case History</h2>
             
@@ -285,7 +287,7 @@ export function DeepPageTemplate({
         </section>
 
         {/* Deliverables Section */}
-        <section className="py-20 px-8 md:px-16 bg-site-bg">
+        <section className="py-20 px-8 md:px-16 bg-transparent">
           <div className="max-w-7xl mx-auto">
             <div className={cn(
               "p-10 rounded-2xl border bg-[var(--card)] border-[var(--brand-accent)]/30 transition-all hover:border-[var(--brand-accent)]/50",
@@ -307,7 +309,7 @@ export function DeepPageTemplate({
         <UpsellViewer theme={theme} />
 
         {/* Footer */}
-        <footer className="bg-site-bg text-white pt-16 pb-8 px-8 md:px-16 border-t border-[var(--ui-border)]">
+        <footer className="bg-transparent text-white pt-16 pb-8 px-8 md:px-16 border-t border-[var(--ui-border)]">
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-center gap-6">
               <div className="flex items-center gap-2">

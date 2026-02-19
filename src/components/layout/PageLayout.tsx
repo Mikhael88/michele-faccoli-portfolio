@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import { ReactNode } from 'react'
 import { Preventivatore } from '@/components/blocks/Preventivatore'
 import { PreventivatoreFAB } from '@/components/blocks/PreventivatoreFAB'
+import { BohemeBackground } from '@/components/ui/BohemeBackground'
 
 interface PageLayoutProps {
   children: ReactNode
@@ -19,34 +20,39 @@ export function PageLayout({ children, currentPage }: PageLayoutProps) {
   const otherLabel = isAgenzie ? 'Sei un\'Azienda?' : 'Sei un\'Agenzia?'
 
   return (
-    <div data-theme={isAgenzie ? 'orange' : 'blue'} className="flex h-screen bg-site-bg overflow-hidden">
-      {/* Preventivatore Modal - rendered via Portal */}
-      <Preventivatore currentPage={currentPage} />
-      <PreventivatoreFAB rightOffset="calc(10% + 1.5rem)" />
-      
-      {/* Main Content Area - con padding destro per evitare overlap con sidebar */}
-      <motion.main
-        className="h-full overflow-y-auto overflow-x-hidden relative pr-14 md:pr-20"
-        initial={{ width: '100%' }}
-        animate={{ width: '90%' }}
-        transition={{ duration: 0.5 }}
-      >
-        {children}
-      </motion.main>
+    <div data-theme={isAgenzie ? 'orange' : 'blue'} className="relative h-screen overflow-hidden">
+      {/* Sfondo Bohème fisso per tutte le pagine interne */}
+      <div className="fixed inset-0 -z-10">
+        <BohemeBackground />
+        <div className="absolute inset-0 bg-black/40" />
+      </div>
 
-      {/* Sidebar Navigation (10%) */}
-      <motion.aside
-        className={cn(
-          'h-full relative flex flex-col items-center justify-center border-l z-40 group cursor-pointer transition-all duration-300',
-          isAgenzie 
-            ? 'bg-site-bg border-[var(--brand-accent)]/20' 
-            : 'bg-site-bg border-[var(--brand-accent)]/20'
-        )}
-        initial={{ width: '0%' }}
-        animate={{ width: '10%' }}
-        whileHover={{ width: '15%' }}
-        transition={{ duration: 0.3 }}
-      >
+      <div className="flex h-full bg-transparent overflow-hidden">
+        {/* Preventivatore Modal - rendered via Portal */}
+        <Preventivatore currentPage={currentPage} />
+        <PreventivatoreFAB rightOffset="calc(10% + 1.5rem)" />
+        
+        {/* Main Content Area - con padding destro per evitare overlap con sidebar */}
+        <motion.main
+          className="h-full overflow-y-auto overflow-x-hidden relative pr-14 md:pr-20"
+          initial={{ width: '100%' }}
+          animate={{ width: '90%' }}
+          transition={{ duration: 0.5 }}
+        >
+          {children}
+        </motion.main>
+
+        {/* Sidebar Navigation (10%) */}
+        <motion.aside
+          className={cn(
+            'h-full relative flex flex-col items-center justify-center border-l z-40 group cursor-pointer transition-all duration-300',
+            'bg-transparent border-[var(--brand-accent)]/20'
+          )}
+          initial={{ width: '0%' }}
+          animate={{ width: '10%' }}
+          whileHover={{ width: '15%' }}
+          transition={{ duration: 0.3 }}
+        >
         {/* Background blur colorato - colore in base alla pagina DI DESTINAZIONE */}
         <div className={cn(
           'absolute inset-0 pointer-events-none',
@@ -108,7 +114,8 @@ export function PageLayout({ children, currentPage }: PageLayoutProps) {
           'absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none',
           isAgenzie ? 'bg-[#0066ff]/5' : 'bg-[#FF6B35]/5'
         )} />
-      </motion.aside>
+        </motion.aside>
+      </div>
     </div>
   )
 }

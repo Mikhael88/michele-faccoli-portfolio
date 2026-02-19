@@ -50,7 +50,7 @@ export function BusinessPage() {
   
   return (
     <PageLayout currentPage="aziende">
-      <div className="min-h-full bg-background-dark">
+      <div className="min-h-full bg-transparent">
       <nav className="sticky top-0 z-50 w-full bg-site-bg/80 backdrop-blur-md border-b border-[var(--brand-accent)]/20 px-8 py-4 flex justify-between items-center">
         <Link href="/" className="flex items-center gap-2">
           <div className="w-8 h-8 bg-[var(--brand-accent)] rounded-lg flex items-center justify-center text-white font-bold text-lg">MF</div>

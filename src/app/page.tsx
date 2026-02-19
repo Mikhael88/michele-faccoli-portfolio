@@ -1,22 +1,9 @@
-import { getHeroSection, getBivioSection } from '@/lib/sanity'
-import { HomeClient } from '@/components/pages/HomeClient'
+import { MaintenanceLanding } from '@/components/pages/MaintenanceLanding'
 
 /**
- * Homepage con flusso multi-pagina dinamica.
- * Hero → Bivio (scelta percorso) → navigazione a /servizi-agenzie o /soluzioni-industriali.
- * Contenuti caricati da Sanity CMS.
+ * Landing page temporanea - Lavori in corso
+ * Sostituisce temporaneamente la homepage durante i lavori di miglioramento.
  */
-export default async function Home() {
-  // Fetch dati da Sanity
-  const [heroData, bivioData] = await Promise.all([
-    getHeroSection(),
-    getBivioSection(),
-  ])
-
-  return (
-    <HomeClient
-      heroData={heroData}
-      bivioData={bivioData}
-    />
-  )
+export default function Home() {
+  return <MaintenanceLanding />
 }
