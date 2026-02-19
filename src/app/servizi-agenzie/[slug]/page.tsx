@@ -7,8 +7,6 @@ interface PageProps {
   params: Promise<{ slug: string }>
 }
 
-export const revalidate = 60; // Aggiorna i dati al massimo ogni 60 secondi
-
 export async function generateStaticParams() {
   const allSlugs = await getAllServiceSlugs()
   // Filtra solo i servizi del cluster servizi-agenzie
