@@ -6,6 +6,4 @@ export const client = createClient({
   dataset,
   apiVersion,
   useCdn: false,
-  // Il '!' risolve l'errore TypeScript che bloccava GitHub
-  token: process.env.SANITY_API_READ_TOKEN!, 
 })
