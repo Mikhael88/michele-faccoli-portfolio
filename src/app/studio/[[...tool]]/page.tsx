@@ -1,23 +1,22 @@
-/**
- * Sanity Studio embedded in Next.js (App Router).
- * Componente forzato lato client (CSR) tramite next/dynamic per prevenire
- * conflitti di idratazione e limitazioni della Context API in React 19 (SSR).
- */
-
 'use client'
 
-import dynamic from 'next/dynamic'
-import config from '@/sanity.config' // Importazione diretta, sicura ed efficiente
-// Disabilita il Server-Side Rendering solo per l'engine dello Studio
-const NextStudio = dynamic(
-  () => import('next-sanity/studio').then((mod) => mod.NextStudio),
-  { 
-    ssr: false,
-    loading: () => <div style={{ padding: 24, fontFamily: 'system-ui' }}>Caricamento Studio…</div>
-  }
-)
+/**
+ * Placeholder per la route /studio in produzione.
+ * Lo Studio viene eseguito localmente tramite `sanity dev`
+ * e non fa più parte del bundle Next.js per evitare problemi
+ * di compatibilità tra Sanity, Refractor e Turbopack su Vercel.
+ */
 
 export default function StudioPage() {
-  // Nessun useEffect, nessun useState, nessun re-render inutile.
-  return <NextStudio config={config} />
+  if (process.env.NODE_ENV === 'development') {
+    return (
+      <div style={{ padding: 24, fontFamily: 'system-ui', color: 'white' }}>
+        Studio embedded disabilitato nel bundle di produzione.
+        Esegui <code>npm run sanity</code> per aprire lo Studio localmente.
+      </div>
+    )
+  }
+
+  // In produzione non renderizziamo nulla per questa route.
+  return null
 }
