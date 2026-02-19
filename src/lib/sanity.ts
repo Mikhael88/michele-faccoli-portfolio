@@ -9,11 +9,9 @@ export const client = createClient({
   apiVersion,
   dataset,
   projectId,
-  useCdn,
+  useCdn: false, // FORZATO A FALSE: vogliamo sempre il dato master, niente CDN intermedie.
   perspective: 'published',
-  // Se usi Next.js 13+, il caching viene gestito a livello di fetch, 
-  // non serve configurarlo qui globalmente.
-})
+})    
 
 const builder = imageUrlBuilder(client)
 
@@ -134,13 +132,13 @@ export interface BivioSectionData {
 // --- FETCH FUNCTIONS CON TAGGING ---
 
 /**
- * Helper interno per gestire fetch con tag e revalidation di sicurezza
+ * Helper interno per gestire fetch con tag per la revalidazione on-demand (ISR)
  */
 async function sanityFetch<T>(query: string, params: Record<string, any> = {}, tags: string[] = []): Promise<T> {
-  // Modalità "sempre fresco": nessuna cache, ogni richiesta legge direttamente da Sanity.
-  // Così, quando clicchi Publish in Studio, basta ricaricare la pagina e vedi subito il contenuto aggiornato.
   return client.fetch<T>(query, params, {
-    cache: 'no-store',
+    // Passiamo a Next.js i tag. Aggiungiamo di default 'sanity-content' 
+    // in modo che il nostro webhook possa invalidare tutto con un solo colpo.
+    next: { tags: ['sanity-content', ...tags] }
   })
 }
 
