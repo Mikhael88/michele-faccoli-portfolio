@@ -1,0 +1,287 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design system ripristinato dal backup originale (Z.ai scaffold) */
+:root {
+  --radius: 0.5rem;
+  
+  /* Neon Color Palette - Dynamic Glow Theme */
+  /* AGENZIE - Orange/Yellow */
+  --neon-orange: #FF6B35;
+  --neon-yellow: #FFD93D;
+  --neon-amber: #FF8C42;
+  
+  /* AZIENDE - Cyan/Blue */
+  --neon-cyan: #00BCD4;
+  --neon-blue: #2196F3;
+  --neon-blue-light: #64B5F6;
+  --neon-blue-dark: #1565C0;
+  --neon-teal: #00ACC1;
+  --neon-green: #00ff88;
+
+  /* Industrial/Tech palette */
+  --cyber-blue: #00d4ff;
+  --carbon: #0d0d0d;
+  --steel-gray: #6b7280;
+  --chrome: #1a1a1a;
+  
+  /* Base colors (Agenzie default) */
+  --primary: #FF6B35;
+  --primary-dark: #FF8C42;
+  --accent-gold: #FFD93D;
+  
+  /* Backgrounds */
+  --background-light: #f6f8f7;
+  --background-dark: #0A0A0A;
+  --sidebar-blue: #0A0A0A;
+  
+  /* Base theme colors */
+  --background: #0A0A0A;
+  --foreground: #f5f5f5;
+  --card: #141414;
+  --card-foreground: #f5f5f5;
+  --popover: #141414;
+  --popover-foreground: #f5f5f5;
+  --primary-foreground: #0A0A0A;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #f5f5f5;
+  --muted: #1a1a1a;
+  --muted-foreground: #94a3b8;
+  --accent: #1a1a1a;
+  --accent-foreground: #FF6B35;
+  --destructive: #ff4444;
+  --border: rgba(255, 107, 53, 0.1);
+  --input: rgba(255, 107, 53, 0.15);
+  --ring: #FF6B35;
+  --chart-1: #FF6B35;
+  --chart-2: #FFD93D;
+  --chart-3: #FF8C42;
+  --chart-4: #00BCD4;
+  --chart-5: #2196F3;
+  --sidebar: #0A0A0A;
+  --sidebar-foreground: #f5f5f5;
+  --sidebar-primary: #FF6B35;
+  --sidebar-primary-foreground: #0A0A0A;
+  --sidebar-accent: #1a1a1a;
+  --sidebar-accent-foreground: #f5f5f5;
+  --sidebar-border: rgba(255, 107, 53, 0.1);
+  --sidebar-ring: #FF6B35;
+
+  /* Alias per il nuovo design system semantico */
+  --site-bg: var(--background-dark);
+  --brand-accent: var(--primary);
+  --ui-border: var(--sidebar-border);
+  --font-heading: var(--font-geist-sans);
+}
+
+/* Blue theme override per pagine Aziende / Soluzioni Industriali */
+[data-theme="blue"] {
+  --brand-accent: #0066ff;
+  --primary: #0066ff;
+  --ring: #0066ff;
+  --accent-foreground: #0066ff;
+  --border: rgba(0, 102, 255, 0.1);
+  --input: rgba(0, 102, 255, 0.15);
+  --sidebar-border: rgba(0, 102, 255, 0.1);
+  --sidebar-primary: #0066ff;
+  --sidebar-ring: #0066ff;
+}
+
+.dark {
+  --background: #0A0A0A;
+  --foreground: #f5f5f5;
+  --card: #141414;
+  --card-foreground: #f5f5f5;
+  --popover: #141414;
+  --popover-foreground: #f5f5f5;
+  --primary-foreground: #0A0A0A;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #f5f5f5;
+  --muted: #1a1a1a;
+  --muted-foreground: #94a3b8;
+  --accent: #1a1a1a;
+  --accent-foreground: #FF6B35;
+  --destructive: #ff4444;
+  --border: rgba(255, 107, 53, 0.1);
+  --input: rgba(255, 107, 53, 0.15);
+  --ring: #FF6B35;
+  --chart-1: #FF6B35;
+  --chart-2: #FFD93D;
+  --chart-3: #FF8C42;
+  --chart-4: #00BCD4;
+  --chart-5: #2196F3;
+  --sidebar: #0A0A0A;
+  --sidebar-foreground: #f5f5f5;
+  --sidebar-primary: #FF6B35;
+  --sidebar-primary-foreground: #0A0A0A;
+  --sidebar-accent: #1a1a1a;
+  --sidebar-accent-foreground: #f5f5f5;
+  --sidebar-border: rgba(255, 107, 53, 0.1);
+  --sidebar-ring: #FF6B35;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  /* Rimuovi sottolineature e colore blu link di default da tutti i link */
+  a {
+    @apply no-underline;
+    color: inherit;
+  }
+}
+
+@layer utilities {
+  /* Classe custom per compatibilità con l'outline-ring/50 originale */
+  .outline-ring\/50 {
+    outline-width: 1px;
+    outline-style: solid;
+    outline-color: color-mix(in srgb, var(--ring) 50%, transparent);
+  }
+
+  /* Hide scrollbar utility */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Custom scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: var(--background-dark);
+    border-radius: 4px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 4px;
+    opacity: 0.5;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-gold);
+  }
+
+  /* Glow effects */
+  .glow-orange {
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.3), 0 0 40px rgba(255, 107, 53, 0.1);
+  }
+  
+  .glow-cyan {
+    box-shadow: 0 0 20px rgba(0, 188, 212, 0.3), 0 0 40px rgba(0, 188, 212, 0.1);
+  }
+
+  .glow-brand {
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.3), 0 0 40px rgba(255, 107, 53, 0.1);
+  }
+
+  .glow-cyber {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.3), 0 0 40px rgba(0, 212, 255, 0.1);
+  }
+
+  .glow-blue {
+    box-shadow: 0 0 20px rgba(0, 102, 255, 0.3), 0 0 40px rgba(0, 102, 255, 0.1);
+  }
+
+  /* Pulse animation */
+  @keyframes pulse-slow {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse-slow 3s ease-in-out infinite;
+  }
+}
+
+/* Grid background */
+@layer components {
+  .grid-bg {
+    background-image: 
+      linear-gradient(rgba(255, 107, 53, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 107, 53, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+  }
+}
+
+/* Neon gradient text utilities */
+@layer components {
+  .neon-text-orange {
+    background: linear-gradient(135deg, var(--neon-orange), var(--neon-yellow), var(--neon-amber));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .neon-text-cyan {
+    background: linear-gradient(135deg, var(--neon-cyan), var(--neon-blue), var(--neon-teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .neon-text-blue {
+    background: linear-gradient(135deg, var(--neon-blue-light), var(--neon-blue), var(--neon-blue-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Glass morphism */
+@layer components {
+  .glass {
+    background: rgba(16, 34, 26, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+  
+  .glass-light {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
+
+/* Gradient text */
+@layer components {
+  .gradient-text {
+    background: linear-gradient(135deg, var(--primary), var(--accent-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Vertical text for sidebar */
+@layer components {
+  .vertical-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+  }
+  
+  .vertical-text-up {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(0deg);
+  }
+}

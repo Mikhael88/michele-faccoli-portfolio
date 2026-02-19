@@ -1,0 +1,25 @@
+# Segreti (Corretto per il tuo file senza punto)
+env.local
+.env*
+
+# Cartelle di sistema e Cache
+.sanity/
+.next/
+node_modules/
+next-env.d.ts
+
+# Spazzatura e Backup (Dalla tua lista)
+download/
+backups/
+skills/
+*.tar.gz
+
+# Log e Debug
+*.log
+.vercel
+.turbo
+
+# Ultime falle rilevate
+vercel_key
+db/
+upload/
